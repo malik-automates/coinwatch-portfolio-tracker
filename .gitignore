@@ -1,0 +1,30 @@
+# Virtual Environment
+.venv/
+
+# Environment Variables
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Logs
+logs/
+
+# Generated Reports
+*.xlsx
+data/
+docs/
+
+# scripts
+script/
+
+# VSCode
+.vscode/
+
+# Tests
+.pytest_cache/
+
+# Coverage
+htmlcov/
+.coverage
