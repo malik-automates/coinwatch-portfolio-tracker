@@ -1,0 +1,46 @@
+
+=================================================================
+INSPECTION REPORT - DATAFRAME
+=================================================================
+Shape
+    12 rows x 5 columns
+
+Columns:
+    coin_id
+    ticker
+    category
+    quantity_held
+    avg_purchase_price_usd
+
+Data Types:
+coin_id                   string[python]
+ticker                    string[python]
+category                  string[python]
+quantity_held                    float64
+avg_purchase_price_usd           float64
+
+Missing Values: 
+                        count    %
+avg_purchase_price_usd      1  8.3
+
+Numeric Summary: 
+       quantity_held  avg_purchase_price_usd
+count      12.000000               11.000000
+mean    76084.758333             7120.210002
+std    259479.461988            15281.279167
+min     -1500.000000                0.000020
+25%         4.762500                0.465000
+50%       135.000000               14.500000
+75%      1925.000000             1136.000000
+max    900000.000000            38000.000000
+
+Duplicate Rows: 1
+
+First 5 Rows: 
+    coin_id ticker  category  quantity_held  avg_purchase_price_usd
+0   bitcoin    BTC    Layer1           0.45                38000.00
+1  ethereum    eth    Layer1           6.20                 2200.00
+2    solana    SOL    Layer1         120.00                     NaN
+3   cardano    ADA    layer1        5000.00                    0.38
+4    ripple    XRP  Payments        8000.00                    0.55
+=================================================================

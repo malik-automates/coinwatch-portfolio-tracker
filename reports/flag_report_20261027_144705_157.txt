@@ -1,0 +1,4 @@
+  Coin      Flag               Severity Description                              
+0    solana      MISSING_VALUE  MEDIUM   avg_purchase_price_usd has missing value
+1   bitcoin    DUPLICATE_ENTRY  MEDIUM                bitcoin has Duplicate Entry
+2  dogecoin  NEGATIVE_QUANTITY  MEDIUM           quantity_held has Negative value

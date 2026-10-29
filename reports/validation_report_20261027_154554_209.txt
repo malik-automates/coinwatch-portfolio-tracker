@@ -1,0 +1,7 @@
+  Issue                                      Frequency
+0  avg_purchase_price_usd has missing value  1        
+1                solana has Duplicate Entry  1        
+2  Unrecognised category values: {'Layer1'}  7        
+3              Negative quantity: '1' found  1        
+4       Inconsistent Ticker casing: 1 found  1        
+5             Row count 11 below minimum 12  1        
