@@ -112,7 +112,7 @@ def validate_watchlist(
         log.info("No duplicat found - check passed!")
 
     # ── Rule 5: Valid category values ───────────────────────────────────────
-    valid_categories = set(config.valid_categories)
+    valid_categories = set(config.columns.valid_categories)
     actual_categories = (
         watchlist_df[config.columns.category]
         .str.strip()
