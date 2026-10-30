@@ -92,6 +92,9 @@ class TrackerConfig:
     columns: Columns = field(default_factory=Columns)
     label: str = "Watchlist"
 
+    # coingecko
+    coingecko: Coingecko = field(default_factory=Coingecko)
+
     # output validation
     output_format: str = "csv"  # "csv", "json" or "xlsx"
     skip_validation: bool = False

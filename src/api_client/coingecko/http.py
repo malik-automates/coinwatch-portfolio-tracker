@@ -3,8 +3,10 @@ import time
 from collections.abc import Callable
 from typing import TypeVar
 
+import requests
+from requests.exceptions import ConnectionError, HTTPError, Timeout
+
 from src.core.config import Coingecko as cg_api
-from src.core.exceptions import CoinGeckoError, RateLimitError, APIConnectionError
 
 
 def get_api_key(log: logging.Logger) -> str | None:
@@ -45,23 +47,42 @@ T = TypeVar("T")
 def retry_action(
     action: Callable[[], T],
     *,
-    description: str,
+    description: str = "",
     log: logging.Logger,
     retries: int = 3,
     backoff_base: float = 2,
 ) -> T:
     last_exception: Exception | None = None
     for attempt in range(1, retries + 1):
+        _throttle()
         try:
             return action()
-        except CoinGeckoError as e:
-            last_exception = e
+        except (
+            requests.exceptions.HTTPError,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout,
+        ) as exc:
+            last_exception = exc
+            if isinstance(last_exception, HTTPError):
+                description = (
+                    "Rate Limited Error"
+                    if last_exception.response.status_code == 429
+                    else f"Unexpected HttpError : {last_exception.response.status_code}"
+                )
+            elif isinstance(last_exception, ConnectionError):
+                description = "Connection Error"
+            elif isinstance(last_exception, Timeout):
+                description = "Timout Error"
             log.warning(
-                "Attempt %d/%d failed for '%s': %s", attempt, retries, description, e
+                "Attempt %d/%d failed for '%s': %s",
+                attempt,
+                retries,
+                description,
+                exc,
             )
             if attempt < retries:
                 wait_for = backoff_base * (2 ** (attempt - 1))
-                log.info("Retrying '%s' in %.1fs...", description, wait_for)
+                log.info("'%s' : Retrying in %.1fs...", description, wait_for)
                 time.sleep(wait_for)
 
     log.error("'%s' failed after %d attempts — giving up", description, retries)
