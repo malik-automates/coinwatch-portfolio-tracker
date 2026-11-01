@@ -42,9 +42,7 @@ def dedup(df: pd.DataFrame, config: TrackerConfig) -> pd.DataFrame:
 # set it to 0
 def handle_negative_qty(df: pd.DataFrame, config: TrackerConfig) -> pd.DataFrame:
     df = df.copy()
-    df[config.columns.quantity] = df[config.columns.quantity].apply(
-        lambda x: 0 if x < 1 else x
-    )
+    df[config.columns.quantity] = df[config.columns.quantity].apply(lambda x: max(x, 0))
     return df
 
 
