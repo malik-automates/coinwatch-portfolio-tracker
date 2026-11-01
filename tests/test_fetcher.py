@@ -65,7 +65,9 @@ def test_get_markets_passes_expected_request_arguments(monkeypatch, tmp_path):
 
 def test_get_coin_detail_returns_none_for_not_found(monkeypatch, tmp_path, caplog):
     monkeypatch.setattr(
-        fetcher.requests, "get", lambda *args, **kwargs: _response(404, {"error": "missing"})
+        fetcher.requests,
+        "get",
+        lambda *args, **kwargs: _response(404, {"error": "missing"}),
     )
     monkeypatch.setattr(fetcher, "get_api_key", lambda log: None)
     monkeypatch.setattr(http, "_throttle", lambda: None)
@@ -113,9 +115,7 @@ def test_get_coin_detail_sends_detail_query(monkeypatch, tmp_path):
     }
 
 
-def test_get_markets_retries_a_rate_limit_with_a_new_request(
-    monkeypatch, tmp_path
-):
+def test_get_markets_retries_a_rate_limit_with_a_new_request(monkeypatch, tmp_path):
     responses = iter(
         [
             _response(429, {"error": "rate limited"}),
