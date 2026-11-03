@@ -2,6 +2,7 @@ import logging
 
 import pandas as pd
 
+from src.api_client.utils import get_coingecko_markets
 from src.core.config import TrackerConfig
 from src.validation.check_report import QualityReport
 
@@ -175,6 +176,19 @@ def validate_watchlist(
         passed = False
     else:
         log.info("No inconsistent ticker casing found - check passed!")
+
+    # ── Rule 8: Invalid Coin IDs on Coingecko ───────────────────────────────────────
+    actual_coin_ids = set(watchlist_df[config.columns.coin_id])
+    coingecko_ids = get_coingecko_markets(type="coins", config=config, log=log)
+    if coingecko_ids is None:
+        log.warning("Unable to validate coin IDs against CoinGecko")
+    else:
+        valid_coin_ids = {coin["id"] for coin in coingecko_ids}
+        invalid_coin = list(actual_coin_ids - valid_coin_ids)
+        if invalid_coin:
+            log.warning("Found %d invalid coins: '%s'", len(invalid_coin), invalid_coin)
+            for coin in invalid_coin:
+                report.add_flag(coin, "API_ERROR_404", "HIGH", "Coin ID not found")
 
     report.validation_passed = passed
 

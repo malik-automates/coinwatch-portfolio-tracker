@@ -14,7 +14,7 @@ from src.core.config import TrackerConfig
 
 def _get(
     endpoint: str, params: dict | None, config: TrackerConfig, log: logging.Logger
-) -> dict | None:
+) -> dict | list[dict] | None:
     """Returns the parsed JSON dict on success, or None
     if the endpoint failed after all retries.
     We deliberately should not raise here: one bad coin_id
@@ -38,7 +38,7 @@ def _get(
             log.error("Not found (404): %s - check the coin_id is correct", endpoint)
             return None
         elif response.status_code == 500:
-            log.error("Internal Server ERROR (500)!")
+            log.error("API Connection Error (500)!")
             return None
         else:
             response.raise_for_status()
@@ -58,7 +58,7 @@ def get_markets(
     *,
     config: TrackerConfig,
     log: logging.Logger,
-) -> dict | None:
+) -> list[dict] | None:
     """
     Fetch flat markets data (price, market cap, 24h/7d change) for multiple coins in one call
     """

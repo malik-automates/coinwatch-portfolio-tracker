@@ -15,6 +15,7 @@ BASE_DIR = Path.cwd()
 DATA_DIR = BASE_DIR / "data"
 FINAL_DIR = DATA_DIR / "final"
 PROCESSED_DIR = DATA_DIR / "processed"
+CACHE_DIR = DATA_DIR / "cache"
 RAW_DIR = DATA_DIR / "raw"
 LOG_DIR = BASE_DIR / "logs"
 REPORT_DIR = BASE_DIR / "reports"
@@ -81,12 +82,13 @@ class TrackerConfig:
     data_dir: Path = DATA_DIR
     final_dir: Path = FINAL_DIR
     processed_dir: Path = PROCESSED_DIR
+    cache_dir: Path = CACHE_DIR
     raw_dir: Path = RAW_DIR
     log_dir: Path = LOG_DIR
     report_dir: Path = REPORT_DIR
 
     # file name
-    watchlist_filename: str = "watchlist.csv"
+    watchlist_filename: Path = RAW_WATCHLIST_HOLDING_FILEPATH
 
     # watchlist holding
     columns: Columns = field(default_factory=Columns)
@@ -106,7 +108,13 @@ class TrackerConfig:
 
     def __post_init__(self):
         """Create output directories on init."""
-        for d in [self.processed_dir, self.final_dir, self.report_dir, self.log_dir]:
+        for d in [
+            self.processed_dir,
+            self.final_dir,
+            self.report_dir,
+            self.log_dir,
+            self.cache_dir,
+        ]:
             d.mkdir(parents=True, exist_ok=True)
 
     @property

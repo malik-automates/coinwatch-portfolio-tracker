@@ -67,6 +67,8 @@ def retry_action(
                 description = (
                     "Rate Limited Error"
                     if last_exception.response.status_code == 429
+                    else "API Connection Error"
+                    if last_exception.response.status_code >= 500
                     else f"Unexpected HttpError : {last_exception.response.status_code}"
                 )
             elif isinstance(last_exception, ConnectionError):
