@@ -26,9 +26,7 @@ def main():
 
     is_cleaned = validate_watchlist(clean_df, config, report, log)
 
-    # generate and print reports
-    is_valid, val_report = generate_validation_report(report, log)
-    is_flagged, flag_report = generate_flag_report(report, log)
+    _, flag_report = generate_flag_report(report, log)
+    _, val_report = generate_validation_report(report, log)
 
-    # print all report
     print_reports(ins_report, val_report, flag_report, log)
