@@ -10,6 +10,7 @@ __pycache__/
 
 # Logs
 logs/
+reports/
 
 # Generated Reports
 *.xlsx
